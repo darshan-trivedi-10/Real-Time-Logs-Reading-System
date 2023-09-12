@@ -42,9 +42,10 @@ server.listen(8080, function () {
 });
 
 function appendNewLine() {
-  setTimeout(function () {
-    fs.appendFileSync(logFilePath, "\n");
-    appendNewLine(); 
+  let line = 0;
+  setInterval(() => {
+    fs.appendFileSync(logFilePath, `Added line ${line} at the file\n`);
+    line++;
   }, 2000);
 }
 
