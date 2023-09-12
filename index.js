@@ -8,10 +8,6 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-app.get("/", function (req, res) {
-  res.sendFile(__dirname, "./index.html");
-});
-
 const logFilePath = "./logs/logs.txt";
 
 io.on("connection", function (socket) {
@@ -39,6 +35,17 @@ io.on("connection", function (socket) {
   });
 });
 
+app.use("/", express.static(__dirname + "/public"));
+
 server.listen(8080, function () {
   console.log("Server Started on 8080");
 });
+
+function appendNewLine() {
+  setTimeout(function () {
+    fs.appendFileSync(logFilePath, "\n");
+    appendNewLine(); 
+  }, 2000);
+}
+
+appendNewLine();
